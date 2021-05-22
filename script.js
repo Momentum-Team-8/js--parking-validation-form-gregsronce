@@ -63,10 +63,10 @@ function validateCarInfo() {
 }
 
 function dateStartPark() {
-  if (startDate.value >= 10000000 && startDate.value <= 99999999) {
-    document.querySelector('#start-date-field').classList.add('input-valid')
-  } else {
+  if (startDate.value === "") {
     document.querySelector('#start-date-field').classList.add('input-invalid')
+  } else {
+    document.querySelector('#start-date-field').classList.add('input-valid')
   }
 }
 
@@ -114,6 +114,7 @@ function cardExpiration() {
 
 // step 5 use arrays and map to get the totals
 // Look at map method with arrays
+// create loop?
 // .map is a function within a function (callback function)
 //newPets = pets.map(function(pet){
 // return _.capitalize(pet)
