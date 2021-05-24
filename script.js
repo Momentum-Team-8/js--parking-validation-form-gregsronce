@@ -102,17 +102,35 @@ function validateDays() {
   }
 }
 
-// working on card number validation
-  function validateCardNumber(number) {
-  if (creditCard.value === "") {
+// working on card number validation--seems to work but without luhnCheck?
+
+function validateCardNumber() {
+  var regex = new RegExp("^[0-9]{16}$");
+  if (!regex.test(creditCard.value)) {
     document.querySelector('#credit-card-field').classList.add('input-invalid')
-    formIsValid = false
+    formIsValid = true
   } else {
     document.querySelector('#credit-card-field').classList.add('input-valid')
-    formIsValid = true
+    formIsValid = false
   }
 }
 
+function luhnCheck(val) {
+  var sum = 0;
+  for (var i = 0; i < val.length; i++) {
+      var intVal = parseInt(val.substr(i, 1));
+      if (i % 2 == 0) {
+          intVal *= 2;
+          if (intVal > 9) {
+              intVal = 1 + (intVal % 10);
+          }
+      }
+      sum += intVal;
+  }
+  return (sum % 10) == 0;
+}
+
+// CVV is a valid 3 digit number.
 function cvvNumber() {
   if (cvv.value >= 100 && cvv.value <= 999) {
     document.querySelector('#cvv-field').classList.add('input-valid')
