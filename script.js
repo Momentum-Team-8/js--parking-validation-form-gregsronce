@@ -1,12 +1,5 @@
 console.log('Add validation!');
 
-
-// 1. Add the ability to show the user the total cost of their parking when they click the "Make Reservation" button.
-// 1a. Make a variable of #submit-button.
-
-
-
-
 // Variables 
 let form = document.querySelector('#parking-form')
 let error = document.createElement("div")
@@ -25,6 +18,7 @@ let total = document.querySelector('#total')
 let formIsValid;
 const date = new Date();
 const currentYear = date.getFullYear();
+const currentMonth = date.getMonth()
 
 
 // const date = new Date()
@@ -67,7 +61,7 @@ function validateName() {
     formIsValid = true
   }
 }
-// validate car year past and future
+// Car year must be after 1900 and not in the future. Running.
 function validateCarInfo() {
   if (carYear.value <= 1900 || carYear.value > currentYear) {
     document.querySelector('#car-field').classList.add('input-invalid')
@@ -80,7 +74,7 @@ function validateCarInfo() {
     formIsValid = true
   }
 }
-
+// date parking must be future
 function dateStartPark() {
 if (startDate.value === "") {
     document.querySelector('#start-date-field').classList.add('input-invalid')
@@ -90,7 +84,7 @@ if (startDate.value === "") {
     formIsValid = true
  }  
 }
-
+// step 4 completed
 function validateDays() {
   if (numberOfDays.value === "") {
     // console.log('no input')
@@ -108,42 +102,16 @@ function validateDays() {
   }
 }
 
-
+// working on card number validation
   function validateCardNumber(number) {
-    var regex = new RegExp("^[0-9]{16}$");
-    if (!regex.test(number)) {
-      formIsValid = false
-      document.querySelector('#credit-card-field').classList.add('input-invalid')
-    }
-        return false;
-
-    return luhnCheck(number);
-     
+  if (creditCard.value === "") {
+    document.querySelector('#credit-card-field').classList.add('input-invalid')
+    formIsValid = false
+  } else {
+    document.querySelector('#credit-card-field').classList.add('input-valid')
+    formIsValid = true
+  }
 }
-
-function luhnCheck(val) {
-    var sum = 0;
-    for (var i = 0; i < val.length; i++) {
-        var intVal = parseInt(val.substr(i, 1));
-        if (i % 2 == 0) {
-            intVal *= 2;
-            if (intVal > 9) {
-                intVal = 1 + (intVal % 10);
-            }
-        }
-        sum += intVal;
-    }
-    return (sum % 10) == 0;
-}
-  // if (creditCard.value === "") {
-  //   document.querySelector('#credit-card-field').classList.add('input-invalid')
-  //   formIsValid = false
-  // } else {
-  //   document.querySelector('#credit-card-field').classList.add('input-valid')
-  //   formIsValid = true
-  // }
-
-
 
 function cvvNumber() {
   if (cvv.value >= 100 && cvv.value <= 999) {
@@ -154,16 +122,18 @@ function cvvNumber() {
     formIsValid = false
   }
 }
-
+// Expiration date must be a valid month and year and in the correct format. Running.
+// Expiration date must not be in the past.
 function cardExpiration() {
-  if (expiration.value === "" || expiration.value < currentYear ) {
+  let regex = new RegExp('^(0[1-9]|1[0-2])\/?([0-9]{2})$')
+  if (!regex.test(expiration.value)) {
     document.querySelector('#expiration-field').classList.add('input-invalid')
     formIsValid = false
   } else {
     document.querySelector('#expiration-field').classList.add('input-valid')
     formIsValid = true
   }
-}
+} 
 
 
 
