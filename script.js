@@ -1,8 +1,5 @@
 console.log('Add validation!');
 
-// CVV must be a three-digit number. 
-// This can use the pattern attribute, or custom validation with JavaScript.
-// Done in HTML, will try with JavaScript later
 
 // 1. Add the ability to show the user the total cost of their parking when they click the "Make Reservation" button.
 // 1a. Make a variable of #submit-button.
@@ -26,6 +23,15 @@ let expiration = document.querySelector('#expiration')
 let submitButton = document.querySelector('#submit-button')
 let total = document.querySelector('#total')
 
+const date = new Date()
+
+let dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+const dayName = dayOfWeek[date.getDay()] // Thu
+let weekendDays = dayOfWeek.filter(weekendDay => weekendDay.match(/S/))
+let weekDays = dayOfWeek.filter(weekDays => !weekDays.match(/S/))
+let currentDate = dayName
+console.log(currentDate)
+
 
 form.addEventListener('submit', event => {
   event.preventDefault()
@@ -33,16 +39,21 @@ form.addEventListener('submit', event => {
   validateCarInfo()
   dateStartPark()
   validateDays()
-  card()
+  validateCardNumber()
   cvvNumber()
   cardExpiration()
 })
 
 // 1d. Make addEventListener using the 'click' event to #submit-button.
 submitButton.addEventListener('click', event => {
-    console.log('input captured!')
     console.log(event)  
 })
+
+// startDate.addEventListener('input', event => {
+//   console.log(event)
+//   console.log(startDate.value) 
+// })
+
 
 function validateName() {
   if (nameInput.value === "") {
@@ -63,11 +74,11 @@ function validateCarInfo() {
 }
 
 function dateStartPark() {
-  if (startDate.value === "") {
+if (startDate.value === "") {
     document.querySelector('#start-date-field').classList.add('input-invalid')
   } else {
     document.querySelector('#start-date-field').classList.add('input-valid')
-  }
+ }  
 }
 
 function validateDays() {
@@ -76,7 +87,7 @@ function validateDays() {
     // console.log('inside validateDays')
   document.querySelector('#days-field').classList.add('input-invalid')
   document.querySelector('#days-field').appendChild(error).innerHTML = 'This field needs numbers, you dolt.'
-  } else if (numberOfDays.value <= 1 || numberOfDays.value >= 31) {
+  } else if (numberOfDays.value < 1 || numberOfDays.value > 30) {
     document.querySelector('#days-field').classList.add('input-invalid')
     document.querySelector('#days-field').appendChild(error).innerHTML = 'This field requires numbers between 1-30.'
   } else {
@@ -85,12 +96,13 @@ function validateDays() {
   }
 }
 
-function card() {
-  if (creditCard.value >= 111111111111 && creditCard.value <= 999999999999) {
-    document.querySelector('#credit-card-field').classList.add('input-valid')
-  } else 
+function validateCardNumber(number) {
+  if (creditCard.value === "") {
     document.querySelector('#credit-card-field').classList.add('input-invalid')
+  } else {
+    document.querySelector('#credit-card-field').classList.add('input-valid')
   }
+}
 
 
 function cvvNumber() {
@@ -111,12 +123,3 @@ function cardExpiration() {
 
 // let formIsValid;
 
-
-// step 5 use arrays and map to get the totals
-// Look at map method with arrays
-// create loop?
-// .map is a function within a function (callback function)
-//newPets = pets.map(function(pet){
-// return _.capitalize(pet)
-// })
-// only use return with curly braces, if the function is on multiple lines, or if you're not using an arrow function.
