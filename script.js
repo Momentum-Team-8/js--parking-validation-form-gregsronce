@@ -22,16 +22,19 @@ let cvv = document.querySelector('#cvv')
 let expiration = document.querySelector('#expiration')
 let submitButton = document.querySelector('#submit-button')
 let total = document.querySelector('#total')
+let formIsValid;
+const date = new Date();
+const currentYear = date.getFullYear();
 
-const date = new Date()
 
-let dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-const dayName = dayOfWeek[date.getDay()] // Thu
-let weekendDays = dayOfWeek.filter(weekendDay => weekendDay.match(/S/))
-let weekDays = dayOfWeek.filter(weekDays => !weekDays.match(/S/))
-let currentDate = dayName
-console.log(currentDate)
-
+// const date = new Date()
+// let dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+// const dayName = dayOfWeek[date.getDay()] // Thu
+// let weekendDays = dayOfWeek.filter(weekendDay => weekendDay.match(/S/))
+// let weekDays = dayOfWeek.filter(weekDays => !weekDays.match(/S/))
+// let currentDate = dayName
+// console.log(currentDate)
+// start date needs to be 
 
 form.addEventListener('submit', event => {
   event.preventDefault()
@@ -58,26 +61,33 @@ submitButton.addEventListener('click', event => {
 function validateName() {
   if (nameInput.value === "") {
     document.querySelector('#name-field').classList.add('input-invalid')
+    formIsValid = false;
   } else {
     document.querySelector('#name-field').classList.add('input-valid')
+    formIsValid = true
   }
 }
-
+// validate car year past and future
 function validateCarInfo() {
-  if (carYear.value <= 1900) {
+  if (carYear.value <= 1900 || carYear.value > currentYear) {
     document.querySelector('#car-field').classList.add('input-invalid')
   } else if (carMake.value === "" || carModel.value === "") {
     document.querySelector('#car-field').classList.add('input-invalid')
-  } else {
+    formIsValid = false
+  } 
+  else {
     document.querySelector('#car-field').classList.add('input-valid')
+    formIsValid = true
   }
 }
 
 function dateStartPark() {
 if (startDate.value === "") {
     document.querySelector('#start-date-field').classList.add('input-invalid')
+    formIsValid = false
   } else {
     document.querySelector('#start-date-field').classList.add('input-valid')
+    formIsValid = true
  }  
 }
 
@@ -90,36 +100,70 @@ function validateDays() {
   } else if (numberOfDays.value < 1 || numberOfDays.value > 30) {
     document.querySelector('#days-field').classList.add('input-invalid')
     document.querySelector('#days-field').appendChild(error).innerHTML = 'This field requires numbers between 1-30.'
+    formIsValid = false
   } else {
     document.querySelector('#days-field').classList.add('input-valid')
     total.innerText = '$' + numberOfDays.value * 5
+    formIsValid = true
   }
 }
 
-function validateCardNumber(number) {
-  if (creditCard.value === "") {
-    document.querySelector('#credit-card-field').classList.add('input-invalid')
-  } else {
-    document.querySelector('#credit-card-field').classList.add('input-valid')
-  }
+
+  function validateCardNumber(number) {
+    var regex = new RegExp("^[0-9]{16}$");
+    if (!regex.test(number)) {
+      formIsValid = false
+      document.querySelector('#credit-card-field').classList.add('input-invalid')
+    }
+        return false;
+
+    return luhnCheck(number);
+     
 }
+
+function luhnCheck(val) {
+    var sum = 0;
+    for (var i = 0; i < val.length; i++) {
+        var intVal = parseInt(val.substr(i, 1));
+        if (i % 2 == 0) {
+            intVal *= 2;
+            if (intVal > 9) {
+                intVal = 1 + (intVal % 10);
+            }
+        }
+        sum += intVal;
+    }
+    return (sum % 10) == 0;
+}
+  // if (creditCard.value === "") {
+  //   document.querySelector('#credit-card-field').classList.add('input-invalid')
+  //   formIsValid = false
+  // } else {
+  //   document.querySelector('#credit-card-field').classList.add('input-valid')
+  //   formIsValid = true
+  // }
+
 
 
 function cvvNumber() {
   if (cvv.value >= 100 && cvv.value <= 999) {
-    document.querySelector('#cvv-field').classList.add('input-valid')  
+    document.querySelector('#cvv-field').classList.add('input-valid')
+    formIsValid = true  
   } else {
     document.querySelector('#cvv-field').classList.add('input-invalid')
+    formIsValid = false
   }
 }
 
 function cardExpiration() {
-  if (expiration.value === "") {
+  if (expiration.value === "" || expiration.value < currentYear ) {
     document.querySelector('#expiration-field').classList.add('input-invalid')
+    formIsValid = false
   } else {
     document.querySelector('#expiration-field').classList.add('input-valid')
+    formIsValid = true
   }
 }
 
-// let formIsValid;
+
 
