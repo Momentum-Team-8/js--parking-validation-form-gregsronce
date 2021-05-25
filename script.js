@@ -73,7 +73,7 @@ if (startDate.value === "") {
 function validateDays() {
   if (numberOfDays.value === "") {
   document.querySelector('#days-field').classList.add('input-invalid')
-  document.querySelector('#days-field').appendChild(error).innerHTML = 'This field needs numbers, you dolt.'
+  document.querySelector('#days-field').appendChild(error).innerHTML = 'This field requires numbers.'
   } else if (numberOfDays.value < 1 || numberOfDays.value > 30) {
     document.querySelector('#days-field').classList.add('input-invalid')
     document.querySelector('#days-field').appendChild(error).innerHTML = 'This field requires numbers between 1-30.'
@@ -134,6 +134,17 @@ function cardExpiration() {
     formIsValid = true
   }
 } 
+
+// Step 5 musings
+
+
+// const date = new Date()
+// let dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+// const dayName = dayOfWeek[date.getDay()] 
+// let weekendDays = dayOfWeek.filter(weekendDay => weekendDay.match(/S/))
+// let weekDays = dayOfWeek.filter(weekDays => !weekDays.match(/S/))
+// let currentDate = dayName
+// console.log(currentDate)
 
 
 
