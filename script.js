@@ -20,16 +20,6 @@ const date = new Date();
 const currentYear = date.getFullYear();
 const currentMonth = date.getMonth()
 
-
-// const date = new Date()
-// let dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-// const dayName = dayOfWeek[date.getDay()] // Thu
-// let weekendDays = dayOfWeek.filter(weekendDay => weekendDay.match(/S/))
-// let weekDays = dayOfWeek.filter(weekDays => !weekDays.match(/S/))
-// let currentDate = dayName
-// console.log(currentDate)
-// start date needs to be 
-
 form.addEventListener('submit', event => {
   event.preventDefault()
   validateName()
@@ -45,12 +35,6 @@ form.addEventListener('submit', event => {
 submitButton.addEventListener('click', event => {
     console.log(event)  
 })
-
-// startDate.addEventListener('input', event => {
-//   console.log(event)
-//   console.log(startDate.value) 
-// })
-
 
 function validateName() {
   if (nameInput.value === "") {
@@ -74,7 +58,7 @@ function validateCarInfo() {
     formIsValid = true
   }
 }
-// date parking must be future
+// date parking must be future. Not Running
 function dateStartPark() {
 if (startDate.value === "") {
     document.querySelector('#start-date-field').classList.add('input-invalid')
@@ -84,11 +68,10 @@ if (startDate.value === "") {
     formIsValid = true
  }  
 }
+
 // step 4 completed
 function validateDays() {
   if (numberOfDays.value === "") {
-    // console.log('no input')
-    // console.log('inside validateDays')
   document.querySelector('#days-field').classList.add('input-invalid')
   document.querySelector('#days-field').appendChild(error).innerHTML = 'This field needs numbers, you dolt.'
   } else if (numberOfDays.value < 1 || numberOfDays.value > 30) {
@@ -102,19 +85,18 @@ function validateDays() {
   }
 }
 
-// working on card number validation--seems to work but without luhnCheck?
-
+// working on card number validation-- running--thanks to Roan
 function validateCardNumber() {
-  var regex = new RegExp("^[0-9]{16}$");
+  let regex = new RegExp("^[0-9]{16}$");
   if (!regex.test(creditCard.value)) {
     document.querySelector('#credit-card-field').classList.add('input-invalid')
-    formIsValid = true
-  } else {
-    document.querySelector('#credit-card-field').classList.add('input-valid')
     formIsValid = false
+  } else if (luhnCheck(creditCard.value)){
+    document.querySelector('#credit-card-field').classList.add('input-valid')
+    formIsValid = true
   }
 }
-
+// checks to see if cc number is valid
 function luhnCheck(val) {
   var sum = 0;
   for (var i = 0; i < val.length; i++) {
@@ -130,7 +112,7 @@ function luhnCheck(val) {
   return (sum % 10) == 0;
 }
 
-// CVV is a valid 3 digit number.
+// CVV is a valid 3 digit number. Running
 function cvvNumber() {
   if (cvv.value >= 100 && cvv.value <= 999) {
     document.querySelector('#cvv-field').classList.add('input-valid')
@@ -141,7 +123,7 @@ function cvvNumber() {
   }
 }
 // Expiration date must be a valid month and year and in the correct format. Running.
-// Expiration date must not be in the past.
+// Expiration date must not be in the past. Not running
 function cardExpiration() {
   let regex = new RegExp('^(0[1-9]|1[0-2])\/?([0-9]{2})$')
   if (!regex.test(expiration.value)) {
